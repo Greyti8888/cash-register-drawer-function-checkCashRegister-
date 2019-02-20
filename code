@@ -62,16 +62,24 @@ function checkCashRegister(price, cash, cid) {
 
   money = Math.round(money * 100) / 100;
  
+  //giving change
   for (let i = cid.length - 1; i >= 0; i--) {
     let counter = 0
+    console.log(money)
     while (money > units[cid[i][0]]['value'] && units[cid[i][0]]['amount'] >= money) {
       money = money - units[cid[i][0]]['value']
       units[cid[i][0]]['amount'] = units[cid[i][0]]['amount'] - units[cid[i][0]]['value'];
       counter++
     }
-    result.push(cid[i][0], )
+    if (counter > 0) result['change'].push(cid[i][0], units[cid[i][0]]['value'] * counter);    
   }
-  return change;
+
+  if (money > 0.01) {
+    result['status'] = "INSUFFICIENT_FUNDS";
+    result['change'] = [];
+    return result;
+  }
+  return result  
 }
 
 // Example cash-in-drawer array:
