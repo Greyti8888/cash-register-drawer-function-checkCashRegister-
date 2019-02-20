@@ -1,0 +1,111 @@
+function checkCashRegister(price, cash, cid) {
+  let result = {
+    status: '',
+    change: []  
+  };
+  let unitValue = {
+    "PENNY": 0.01,
+    "NICKEL": 0.05,
+    "DIME": 0.1,
+    "QUARTER": 0.25,
+    "ONE": 1,
+    "FIVE": 5,
+    "TEN" : 10,
+    "TWENTY": 20,
+    "ONE HUNDRED": 100
+  };
+
+  function Unit(name, amount) {
+    this.name = name;
+    this.amount = amount
+    this.value = unitValue[name]
+  }
+
+  //creating objects from cid
+  let units = {}
+  cid.forEach((i) => {
+    units[i[0]] = {
+      amount: i[1],
+      value: unitValue[i[0]]
+    }})
+
+  for (let i = 0; i < cid.length; i++) {
+  }
+
+  let money = 0;
+  let change = cash - price;
+  //console.log(change)
+  for (let i = 0; i < cid.length; i++) {
+    money =  money + Math.round(cid[i][1] * 100) / 100
+  }
+  
+  // checking if INSUFFICIENT_FUNDS
+  if (money < change) {
+    result['status'] = "INSUFFICIENT_FUNDS";
+    result['change'] = [];
+    return result;
+  }
+
+  // removing units that are to large
+  for (let unit in units) {
+    if (units[unit]['value'] > change) {
+      money = money - units[unit]['amount'];
+    }
+  }
+
+  // checking if INSUFFICIENT_FUNDS
+  if (money < change) {
+    result['status'] = "INSUFFICIENT_FUNDS";
+    result['change'] = [];
+    return result;
+  }  
+
+  money = Math.round(money * 100) / 100;
+ 
+  for (let i = cid.length - 1; i >= 0; i--) {
+    let counter = 0
+    while (money > units[cid[i][0]]['value'] && units[cid[i][0]]['amount'] >= money) {
+      money = money - units[cid[i][0]]['value']
+      units[cid[i][0]]['amount'] = units[cid[i][0]]['amount'] - units[cid[i][0]]['value'];
+      counter++
+    }
+    result.push(cid[i][0], )
+  }
+  return change;
+}
+
+// Example cash-in-drawer array:
+// [["PENNY", 1.01],
+// ["NICKEL", 2.05],
+// ["DIME", 3.1],
+// ["QUARTER", 4.25],
+// ["ONE", 90],
+// ["FIVE", 55],
+// ["TEN", 20],
+// ["TWENTY", 60],
+// ["ONE HUNDRED", 100]]
+
+checkCashRegister(19.5, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 0]]);
+
+/*
+  let cUnits = {
+    "PENNY": 0.01,
+    "NICKEL": 0.05,
+    "DIME": 0.1,
+    "QUARTER": 0.25,
+    "ONE": 1,
+    "FIVE": 5,
+    "TEN" : 10,
+    "TWENTY": 20,
+    "ONE HUNDRED": 100
+  }
+*/
+
+/*
+//creating objects from cid
+  let units = {}
+  cid.forEach((i) => {
+    units[i[0]] = {
+      amount: i[1],
+    }})
+*/
