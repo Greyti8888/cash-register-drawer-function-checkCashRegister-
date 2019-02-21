@@ -18,12 +18,12 @@ function checkCashRegister(price, cash, cid) {
 
   //creating objects from cid array
   let units = {}
-  cid.forEach((i) => {units[i[0]] = {amount: i[1] * 100,value: unitValue[i[0]]}});
+  cid.forEach((i) => {units[i[0]] = {amount: i[1] * 100, value: unitValue[i[0]]}});
 
   let money = 0;
   let change = (cash - price) * 100
   for (let i = 0; i < cid.length; i++) {
-    money =  money + (cid[i][1] * 100)
+    money += (cid[i][1] * 100)
   }
   
   if (money == change) {
@@ -41,7 +41,7 @@ function checkCashRegister(price, cash, cid) {
   // removing units that are to big
   for (let unit in units) {
     if (units[unit]['value'] > change) {
-      money = money - units[unit]['amount'];
+      money -= units[unit]['amount'];
     }
   }
   
