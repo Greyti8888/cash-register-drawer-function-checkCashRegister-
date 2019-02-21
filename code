@@ -55,9 +55,9 @@ function checkCashRegister(price, cash, cid) {
   for (let i = cid.length - 1; i >= 0; i--) {
     let counter = 0;
     while (change >= units[cid[i][0]]['value'] && units[cid[i][0]]['amount'] > 0) {
-      change = change - units[cid[i][0]]['value'];
-      money = money - units[cid[i][0]]['value'];
-      units[cid[i][0]]['amount'] = units[cid[i][0]]['amount'] - units[cid[i][0]]['value'];
+      change -= units[cid[i][0]]['value'];
+      money -= units[cid[i][0]]['value'];
+      units[cid[i][0]]['amount'] -= units[cid[i][0]]['value'];
       counter++
     }
     if (counter > 0) result['change'].push([cid[i][0], units[cid[i][0]]['value'] * counter / 100]);    
