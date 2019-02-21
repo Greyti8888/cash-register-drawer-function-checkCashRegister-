@@ -26,6 +26,12 @@ function checkCashRegister(price, cash, cid) {
     money =  money + (cid[i][1] * 100)
   }
   
+  if (money == change) {
+    result['status'] = "CLOSED";
+    result['change'] = cid;
+    return result;
+  }
+  
   if (money < change) {
     result['status'] = "INSUFFICIENT_FUNDS";
     result['change'] = [];
@@ -54,8 +60,7 @@ function checkCashRegister(price, cash, cid) {
       units[cid[i][0]]['amount'] = units[cid[i][0]]['amount'] - units[cid[i][0]]['value'];
       counter++
     }
-    if (change == money) result['change'].unshift([cid[i][0], units[cid[i][0]]['value'] * counter / 100]);
-    else if (counter > 0) result['change'].push([cid[i][0], units[cid[i][0]]['value'] * counter / 100]);    
+    if (counter > 0) result['change'].push([cid[i][0], units[cid[i][0]]['value'] * counter / 100]);    
   };
 
   if (change > 1) {
@@ -63,11 +68,6 @@ function checkCashRegister(price, cash, cid) {
     result['change'] = [];
     return result;
   };
-
-  if (money < 1) {
-    result['status'] = "CLOSED";
-    return result;
-  }
   return result
 }
 
